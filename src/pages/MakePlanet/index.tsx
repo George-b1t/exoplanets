@@ -42,6 +42,8 @@ export function MakePlanet() {
     setPlanetDescription,
     setImages,
     setTexture,
+    setPlanetInfo,
+    setPlanetInfoAttr,
   } = useContext(AppContext)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -264,6 +266,44 @@ export function MakePlanet() {
       periodoOrbita: orbitalPeriod,
       temperatura: temperature,
     })
+
+    setPlanetInfo([
+      {
+        label: 'Water',
+        value: planetData.data.agua,
+      },
+      {
+        label: 'Temperature',
+        value: planetData.data.temperatura,
+      },
+      {
+        label: 'Nature',
+        value: nature + '%',
+      },
+      {
+        label: 'Surface',
+        value: surface + '%',
+      },
+    ])
+
+    setPlanetInfoAttr([
+      {
+        label: 'Radius',
+        value: planetData.data.raio,
+      },
+      {
+        label: 'Mass',
+        value: planetData.data.massa,
+      },
+      {
+        label: 'Density',
+        value: planetData.data.densidade,
+      },
+      {
+        label: 'Orbital Period',
+        value: planetData.data.periodoOrbita,
+      },
+    ])
 
     setPlanetDescription(planetData.data.gpt.content)
   }

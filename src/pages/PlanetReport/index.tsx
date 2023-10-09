@@ -3,10 +3,13 @@ import { Planet } from '../../components/Planet'
 import { Dialog, DialogTitle } from '@mui/material'
 import styles from './styles.module.scss'
 import { AppContext } from '../../context/AppContext'
+import { useNavigate } from 'react-router-dom'
 
 export function PlanetReport() {
   const { planetName, planetDescription, images, texture } =
     useContext(AppContext)
+
+  const navigate = useNavigate()
 
   const [showDialog, setShowDialog] = useState(false)
 
@@ -86,7 +89,13 @@ export function PlanetReport() {
 
             <p>{planetDescription}</p>
 
-            <button>Next</button>
+            <button
+              onClick={() => {
+                navigate('/compare')
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

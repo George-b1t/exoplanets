@@ -1,5 +1,10 @@
 import { createContext, useState } from 'react'
 
+interface Option {
+  value: string
+  label: string
+}
+
 interface AppContextInterface {
   planetName: string
   setPlanetName: (name: string) => void
@@ -12,6 +17,12 @@ interface AppContextInterface {
 
   texture: string
   setTexture: (texture: string) => void
+
+  planetInfo: Option[]
+  setPlanetInfo: (planetInfo: Option[]) => void
+
+  planetInfoAttr: Option[]
+  setPlanetInfoAttr: (planetInfo: Option[]) => void
 }
 
 interface AppProviderProps {
@@ -26,6 +37,9 @@ export function AppProvider({ children }: AppProviderProps) {
   const [images, setImages] = useState<string[]>([])
   const [texture, setTexture] = useState('')
 
+  const [planetInfo, setPlanetInfo] = useState<Option[]>([])
+  const [planetInfoAttr, setPlanetInfoAttr] = useState<Option[]>([])
+
   return (
     <AppContext.Provider
       value={{
@@ -37,6 +51,10 @@ export function AppProvider({ children }: AppProviderProps) {
         setImages,
         texture,
         setTexture,
+        planetInfo,
+        setPlanetInfo,
+        planetInfoAttr,
+        setPlanetInfoAttr,
       }}
     >
       {children}
