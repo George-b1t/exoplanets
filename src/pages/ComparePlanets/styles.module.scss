@@ -16,7 +16,7 @@
 
 .content {
   width: 100%;
-  padding: 0 120px;
+  padding: 0 200px;
 
   display: flex;
   justify-content: space-around;
@@ -33,11 +33,58 @@
 
     .fieldPlanetItemContent {
       width: 400px;
-      height: 400px;
+      height: 340px;
 
       border-radius: 10px;
 
+      padding: 2rem;
+
       background: rgba(0, 0, 0, 0.2);
+
+      .fieldInformations {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .leftInformations {
+        width: 30%;
+      }
+
+      .rightInformations {
+        width: 35%;
+      }
+
+      .divider {
+        max-width: 1px;
+        flex: 1;
+
+        background: rgba(255, 255, 255, 0.2);
+
+        margin: 1rem 0;
+      }
+
+      h3 {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #fff;
+
+        margin-bottom: 2rem;
+      }
+
+      .descItem {
+        margin-bottom: 0.5rem;
+      }
+
+      strong {
+        font-weight: 600;
+        font-size: 1rem;
+        color: #fff;
+      }
+
+      p {
+        font-size: 0.875rem;
+        color: #c6c6c6;
+      }
     }
   }
 }

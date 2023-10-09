@@ -168,11 +168,14 @@
   gap: 2rem;
 
   width: 600px;
+  height: min-content;
   background: rgba(12, 11, 11, 0.64);
 
   border-radius: 10px;
 
   padding: 2rem;
+
+  transition: .3s ease;
 
   p {
     font-size: 14px;
@@ -198,9 +201,9 @@
   }
 
   .sliderField {
-    padding: 1.4rem 2rem 1.2rem 2rem;
+    justify-self: flex-end;
 
-    flex: 1;
+    padding: 1.4rem 2rem 1.2rem 2rem;
 
     display: flex;
 

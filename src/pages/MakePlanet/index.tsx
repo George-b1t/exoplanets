@@ -143,7 +143,7 @@ export function MakePlanet() {
       name: 'Water',
       icon: '/icons/water.png',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!\n\nLorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        "Water is fundamental for a habitable planet. It sustains life, being a universal solvent crucial for biological processes. Its high heat capacity helps regulate temperatures, preventing extreme fluctuations that would otherwise render a planet uninhabitable. Water provides hydration for all organisms, a basic necessity for survival.\n\nMoreover, water bodies like oceans and lakes support diverse ecosystems, offering sustenance and oxygen for countless species. Water's role in climate regulation, through processes like evaporation and precipitation, maintains a stable environment.",
       slider: 70,
       max: 80,
       min: 30,
@@ -157,7 +157,7 @@ export function MakePlanet() {
       name: 'Temperature',
       icon: '/icons/temperature.png',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!\n\nLorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        "Temperature is a crucial factor for a planet's habitability. It determines the presence of liquid water, essential for life as we know it.\n\nA stable temperature range supports diverse ecosystems and prevents extreme fluctuations that can disrupt life. This concept is central to the search for habitable exoplanets, as astronomers seek regions with the right temperature conditions around distant stars.",
       slider: 17.18,
       max: 25,
       min: 9,
@@ -171,7 +171,7 @@ export function MakePlanet() {
       name: 'Nature',
       icon: '/icons/nature.png',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!\n\nLorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        "Nature plays a pivotal role in determining a planet's habitability. It influences climate, weather patterns, and geological features, impacting temperature, landforms, and available resources. Biodiversity and ecosystems provide essential services like pollination and water purification, sustaining life.\n\nFurthermore, natural resources such as clean air, freshwater, and fertile soil are vital for both human and ecological well-being. Understanding and preserving the delicate balance of nature is critical for maintaining a habitable environment.",
       slider: 50,
       max: 100,
       min: 0,
@@ -185,7 +185,7 @@ export function MakePlanet() {
       name: 'Surface',
       icon: '/icons/surface.png',
       description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!\n\nLorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        'The terrain surface is a pivotal factor in habitability, influencing climate, water availability, and natural hazards. Landforms shape temperature variations, affecting regional climates. Water bodies and aquifers are determined by terrain, impacting the availability of freshwater, essential for life.\n\nCertain terrains can be prone to natural hazards like earthquakes or landslides, which can compromise safety and habitability. Additionally, the quality of soil, often influenced by terrain, directly affects agriculture and food production.',
       slider: 50,
       max: 100,
       min: 0,
@@ -198,8 +198,7 @@ export function MakePlanet() {
     {
       name: 'Attributes',
       icon: '/icons/attributes.png',
-      description:
-        'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!\n\nLorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias obcaecati fugiat voluptatibus commodi aliquid aperiam reprehenderit minus alias accusamus voluptates corporis non, dolores, vel, dolor et? Amet dicta quas architecto!Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+      description: '',
       slider: 0,
       max: 0,
       min: 0,
@@ -526,7 +525,7 @@ export function MakePlanet() {
             </div>
 
             <div className={styles.planetField}>
-              <Planet size={360} texture="/textura.png" name="main-planet" />
+              <Planet size={360} texture="/earth_hd.jpg" name="main-planet" />
 
               <button onClick={handleNextStep} id="button-to-animate">
                 Generate
