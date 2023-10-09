@@ -83,7 +83,7 @@ export function ComparePlanets() {
 
                 <div className={styles.descItem}>
                   <strong>Mass</strong>
-                  <p>5.974 10^24 kgC</p>
+                  <p>5.974 * 10^24 kg</p>
                 </div>
 
                 <div className={styles.descItem}>
