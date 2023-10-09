@@ -7,6 +7,7 @@ import { AppContext } from '../../context/AppContext'
 import { Loading } from '../../components/Loading'
 import { apiImages, apiPlanet } from '../../services/api'
 import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'react-toastify'
 
 interface Option {
   name: string
@@ -226,22 +227,33 @@ export function MakePlanet() {
 
     const color = randomTexture.split('.')[0].replace('-', ' ')
 
-    const imagesResponse = await apiImages.post('/send_message', {
-      agua: water,
-      natureza: nature,
-      superficie: surface,
-      temperatura: temperature,
-      cor: color,
-    })
+    let success = false
 
-    const tempImages = []
+    await apiImages
+      .post('/send_message', {
+        agua: water,
+        natureza: nature,
+        superficie: surface,
+        temperatura: temperature,
+        cor: color,
+      })
+      .then((response) => {
+        const tempImages = []
 
-    if (imagesResponse.data.link1) tempImages.push(imagesResponse.data.link1)
-    if (imagesResponse.data.link2) tempImages.push(imagesResponse.data.link2)
-    if (imagesResponse.data.link3) tempImages.push(imagesResponse.data.link3)
-    if (imagesResponse.data.link4) tempImages.push(imagesResponse.data.link4)
+        if (response.data.link1) tempImages.push(response.data.link1)
+        if (response.data.link2) tempImages.push(response.data.link2)
+        if (response.data.link3) tempImages.push(response.data.link3)
+        if (response.data.link4) tempImages.push(response.data.link4)
 
-    setImages(tempImages)
+        setImages(tempImages)
+
+        success = true
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    return success
   }
 
   async function sendPlanetData() {
@@ -254,58 +266,67 @@ export function MakePlanet() {
     const orbitalPeriod = attributes[3].slider
     const temperature = options[1].slider
 
-    const planetData = await apiPlanet.post('/planet', {
-      id: uuidv4(),
-      nome: planetName,
-      agua: water,
-      raio: radius,
-      massa: mass,
-      densidade: density,
-      natureza: nature,
-      superficie: surface,
-      periodoOrbita: orbitalPeriod,
-      temperatura: temperature,
-    })
+    const success = false
 
-    setPlanetInfo([
-      {
-        label: 'Water',
-        value: planetData.data.agua,
-      },
-      {
-        label: 'Temperature',
-        value: planetData.data.temperatura,
-      },
-      {
-        label: 'Nature',
-        value: nature + '%',
-      },
-      {
-        label: 'Surface',
-        value: surface + '%',
-      },
-    ])
+    await apiPlanet
+      .post('/planet', {
+        id: uuidv4(),
+        nome: planetName,
+        agua: water,
+        raio: radius,
+        massa: mass,
+        densidade: density,
+        natureza: nature,
+        superficie: surface,
+        periodoOrbita: orbitalPeriod,
+        temperatura: temperature,
+      })
+      .then((response) => {
+        setPlanetInfo([
+          {
+            label: 'Water',
+            value: response.data.agua,
+          },
+          {
+            label: 'Temperature',
+            value: response.data.temperatura,
+          },
+          {
+            label: 'Nature',
+            value: nature + '%',
+          },
+          {
+            label: 'Surface',
+            value: surface + '%',
+          },
+        ])
 
-    setPlanetInfoAttr([
-      {
-        label: 'Radius',
-        value: planetData.data.raio,
-      },
-      {
-        label: 'Mass',
-        value: planetData.data.massa,
-      },
-      {
-        label: 'Density',
-        value: planetData.data.densidade,
-      },
-      {
-        label: 'Orbital Period',
-        value: planetData.data.periodoOrbita,
-      },
-    ])
+        setPlanetInfoAttr([
+          {
+            label: 'Radius',
+            value: response.data.raio,
+          },
+          {
+            label: 'Mass',
+            value: response.data.massa,
+          },
+          {
+            label: 'Density',
+            value: response.data.densidade,
+          },
+          {
+            label: 'Orbital Period',
+            value: response.data.periodoOrbita,
+          },
+        ])
 
-    setPlanetDescription(planetData.data.gpt.content)
+        setPlanetDescription(response.data.gpt.content)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    return success
   }
 
   function getCurrentOption(): Option {
@@ -324,9 +345,26 @@ export function MakePlanet() {
     setIsLoading(true)
 
     setLoadingLabel('Generating planet images')
-    await getPlanetImages()
+
+    const resultImages = await getPlanetImages()
+
+    if (!resultImages) {
+      toast.error('Error generating planet images, please try again.')
+
+      setIsLoading(false)
+      return
+    }
+
     setLoadingLabel('Generating planet description')
-    await sendPlanetData()
+
+    const resultDescription = await sendPlanetData()
+
+    if (!resultDescription) {
+      toast.error('Error generating planet description, please try again.')
+
+      setIsLoading(false)
+      return
+    }
 
     setIsLoading(false)
 

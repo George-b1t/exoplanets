@@ -12,6 +12,9 @@ import {
 } from 'react-router-dom'
 import { PlanetReport } from './pages/PlanetReport'
 import { AppProvider } from './context/AppContext'
+import { ToastContainer } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +29,7 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AppProvider>
+      <ToastContainer />
       <RouterProvider router={router} />
     </AppProvider>
   </React.StrictMode>,
