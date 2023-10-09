@@ -230,13 +230,19 @@ export function MakePlanet() {
     let success = false
 
     await apiImages
-      .post('/send_message', {
-        agua: water,
-        natureza: nature,
-        superficie: surface,
-        temperatura: temperature,
-        cor: color,
-      })
+      .post(
+        '/send_message',
+        {
+          agua: water,
+          natureza: nature,
+          superficie: surface,
+          temperatura: temperature,
+          cor: color,
+        },
+        {
+          timeout: 30000,
+        },
+      )
       .then((response) => {
         const tempImages = []
 
@@ -351,10 +357,7 @@ export function MakePlanet() {
     const resultImages = await getPlanetImages()
 
     if (!resultImages) {
-      toast.error('Error generating planet images, please try again.')
-
-      setIsLoading(false)
-      return
+      toast.info('We were unable to generate images of the planet')
     }
 
     setLoadingLabel('Generating planet description')
