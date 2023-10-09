@@ -119,7 +119,7 @@ export function MakePlanet() {
       max: 78,
       min: 24,
       metric_unit: 'g/cm^3',
-      showMaxMin: (v) => v.toString(),
+      showMaxMin: (v) => (v / 10).toString(),
       mark: {
         label: 'Earth · 5.5 g/cm^3',
         value: 55,
