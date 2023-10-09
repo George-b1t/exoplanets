@@ -266,7 +266,7 @@ export function MakePlanet() {
     const orbitalPeriod = attributes[3].slider
     const temperature = options[1].slider
 
-    const success = false
+    let success = false
 
     await apiPlanet
       .post('/planet', {
@@ -321,6 +321,8 @@ export function MakePlanet() {
         ])
 
         setPlanetDescription(response.data.gpt.content)
+
+        success = true
       })
       .catch((err) => {
         console.log(err)
