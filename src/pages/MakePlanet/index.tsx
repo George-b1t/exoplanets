@@ -5,9 +5,8 @@ import { Slider } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../../context/AppContext'
 import { Loading } from '../../components/Loading'
-import { apiImages, apiPlanet } from '../../services/api'
-import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-toastify'
+import { translate } from '../../services/translate'
 
 interface Option {
   name: string
@@ -41,10 +40,11 @@ export function MakePlanet() {
     planetName,
     setPlanetName,
     setPlanetDescription,
-    setImages,
     setTexture,
-    setPlanetInfo,
-    setPlanetInfoAttr,
+    idioma,
+    setIdioma,
+    translatedTexts,
+    setTranslatedTexts,
   } = useContext(AppContext)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -58,6 +58,50 @@ export function MakePlanet() {
 
   function showMaxMinF(value: number) {
     return (value / 10).toString() + 'x'
+  }
+
+  async function handleChangeLanguage() {
+    if (idioma === 'en') {
+      setLoadingLabel('Translating texts')
+      setIsLoading(true)
+
+      await translate({
+        texts: [
+          'Water',
+          "Water is fundamental for a habitable planet. It sustains life, being a universal solvent crucial for biological processes. Its high heat capacity helps regulate temperatures, preventing extreme fluctuations that would otherwise render a planet uninhabitable. Water provides hydration for all organisms, a basic necessity for survival.\n\nMoreover, water bodies like oceans and lakes support diverse ecosystems, offering sustenance and oxygen for countless species. Water's role in climate regulation, through processes like evaporation and precipitation, maintains a stable environment.",
+          'Earth · 70%',
+          'Temperature',
+          "Temperature is a crucial factor for a planet's habitability. It determines the presence of liquid water, essential for life as we know it.\n\nA stable temperature range supports diverse ecosystems and prevents extreme fluctuations that can disrupt life. This concept is central to the search for habitable exoplanets, as astronomers seek regions with the right temperature conditions around distant stars.",
+          'Earth · 17.18 °C',
+          'Nature',
+          "Nature plays a pivotal role in determining a planet's habitability. It influences climate, weather patterns, and geological features, impacting temperature, landforms, and available resources. Biodiversity and ecosystems provide essential services like pollination and water purification, sustaining life.\n\nFurthermore, natural resources such as clean air, freshwater, and fertile soil are vital for both human and ecological well-being. Understanding and preserving the delicate balance of nature is critical for maintaining a habitable environment.",
+          'Earth · 50%',
+          'Surface',
+          'The terrain surface is a pivotal factor in habitability, influencing climate, water availability, and natural hazards. Landforms shape temperature variations, affecting regional climates. Water bodies and aquifers are determined by terrain, impacting the availability of freshwater, essential for life.\n\nCertain terrains can be prone to natural hazards like earthquakes or landslides, which can compromise safety and habitability. Additionally, the quality of soil, often influenced by terrain, directly affects agriculture and food production.',
+          'Earth · 50%',
+          'Attributes',
+          'Radius',
+          'Earth · 6.371 km',
+          'Mass',
+          'Earth · 5.974 10^24 kg',
+          'Density',
+          'Earth · 5.5 g/cm^3',
+          'Orbital Period',
+          'days',
+          'Earth · 365 days',
+          'Generate',
+          'Name of the planet',
+          'Generating planet images',
+          'Generating planet description',
+          "Living on a planet named Zephyria would be an extraordinary experience filled with wonders and challenges. Imagine a world where each dawn unveils landscapes never before seen by humanity, with iridescent clouds and a biodiversity that defies our understanding of life. Zephyria is marked by vast plains of color-changing grasses, dense forests of tall blue and purple-leafed trees, and majestic mountains rising above the clouds. The emerald-green oceans are home to exotic and vibrant marine life, and the cities, harmoniously built with sustainable materials and renewable energy, are futuristic, often integrated into natural formations like cliffs or giant treetops.\n\nThe diet on Zephyria is an adventure in itself, blending Earth’s culinary cultures with unique flavors of the planet. Colonizers grow Earth plants in advanced greenhouses but also venture into experimenting with native fruits and vegetables, discovering new flavors and nutrients. The cuisine becomes a fusion of Earth's traditional dishes with the unique tastes of Zephyria, offering an unparalleled gastronomic experience. Technology on Zephyria is notably advanced, especially in sustainability and energy efficiency. Communication with Earth is maintained through high-tech space communication systems, allowing the exchange of vital information and experiences for the evolution of society in this new world.\n\nLiving in Zephyria also means facing unique challenges. Adapting to the local ecosystem and respecting its biodiversity are essential to maintain the planet's ecological balance. Inhabitants must be resilient and innovative, finding ways to coexist peacefully with the alien environment. Life on Zephyria is a journey of self-discovery and innovation, offering a chance to redefine what it means to be human in a broader cosmic context, exploring the limits of the possible, and expanding our understanding of the universe.",
+        ],
+      }).then((response) => {
+        setTranslatedTexts(response)
+      })
+      setIsLoading(false)
+    }
+
+    setIdioma(idioma === 'en' ? 'pt' : 'en')
   }
 
   const texturesList = [
@@ -90,50 +134,50 @@ export function MakePlanet() {
 
   const attributesData: Attribute[] = [
     {
-      name: 'Radius',
+      name: idioma === 'en' ? 'Radius' : translatedTexts[13],
       slider: 10,
       max: 25,
       min: 8,
       metric_unit: 'km',
       showMaxMin: showMaxMinF,
       mark: {
-        label: 'Earth · 6.371 km',
+        label: idioma === 'en' ? 'Earth · 6.371 km' : translatedTexts[14],
         value: 10,
       },
     },
     {
-      name: 'Mass',
+      name: idioma === 'en' ? 'Mass' : translatedTexts[15],
       slider: 10,
       max: 76,
       min: 3,
       metric_unit: '10^24 kg',
       showMaxMin: showMaxMinF,
       mark: {
-        label: 'Earth · 5.974 10^24 kg',
+        label: idioma === 'en' ? 'Earth · 5.974 10^24 kg' : translatedTexts[16],
         value: 10,
       },
     },
     {
-      name: 'Density',
+      name: idioma === 'en' ? 'Density' : translatedTexts[17],
       slider: 55,
       max: 78,
       min: 24,
       metric_unit: 'g/cm^3',
       showMaxMin: (v) => (v / 10).toString(),
       mark: {
-        label: 'Earth · 5.5 g/cm^3',
+        label: idioma === 'en' ? 'Earth · 5.5 g/cm^3' : translatedTexts[18],
         value: 55,
       },
     },
     {
-      name: 'Orbital Period',
+      name: idioma === 'en' ? 'Orbital Period' : translatedTexts[19],
       slider: 365,
       max: 636,
       min: 4,
-      metric_unit: 'days',
+      metric_unit: idioma === 'en' ? 'days' : translatedTexts[20],
       showMaxMin: (v) => v.toString(),
       mark: {
-        label: 'Earth · 365 days',
+        label: idioma === 'en' ? 'Earth · 365 days' : translatedTexts[21],
         value: 365,
       },
     },
@@ -143,63 +187,71 @@ export function MakePlanet() {
 
   const optionsData: Option[] = [
     {
-      name: 'Water',
+      name: idioma === 'en' ? 'Water' : translatedTexts[0],
       icon: '/icons/water.png',
       description:
-        "Water is fundamental for a habitable planet. It sustains life, being a universal solvent crucial for biological processes. Its high heat capacity helps regulate temperatures, preventing extreme fluctuations that would otherwise render a planet uninhabitable. Water provides hydration for all organisms, a basic necessity for survival.\n\nMoreover, water bodies like oceans and lakes support diverse ecosystems, offering sustenance and oxygen for countless species. Water's role in climate regulation, through processes like evaporation and precipitation, maintains a stable environment.",
+        idioma === 'en'
+          ? "Water is fundamental for a habitable planet. It sustains life, being a universal solvent crucial for biological processes. Its high heat capacity helps regulate temperatures, preventing extreme fluctuations that would otherwise render a planet uninhabitable. Water provides hydration for all organisms, a basic necessity for survival.\n\nMoreover, water bodies like oceans and lakes support diverse ecosystems, offering sustenance and oxygen for countless species. Water's role in climate regulation, through processes like evaporation and precipitation, maintains a stable environment."
+          : translatedTexts[1],
       slider: 70,
       max: 80,
       min: 30,
       metric_unit: '%',
       mark: {
-        label: 'Earth · 70%',
+        label: idioma === 'en' ? 'Earth · 70%' : translatedTexts[2],
         value: 70,
       },
     },
     {
-      name: 'Temperature',
+      name: idioma === 'en' ? 'Temperature' : translatedTexts[3],
       icon: '/icons/temperature.png',
       description:
-        "Temperature is a crucial factor for a planet's habitability. It determines the presence of liquid water, essential for life as we know it.\n\nA stable temperature range supports diverse ecosystems and prevents extreme fluctuations that can disrupt life. This concept is central to the search for habitable exoplanets, as astronomers seek regions with the right temperature conditions around distant stars.",
+        idioma === 'en'
+          ? "Temperature is a crucial factor for a planet's habitability. It determines the presence of liquid water, essential for life as we know it.\n\nA stable temperature range supports diverse ecosystems and prevents extreme fluctuations that can disrupt life. This concept is central to the search for habitable exoplanets, as astronomers seek regions with the right temperature conditions around distant stars."
+          : translatedTexts[4],
       slider: 17.18,
       max: 25,
       min: 9,
       metric_unit: '°C',
       mark: {
-        label: 'Earth · 17.18 °C',
+        label: idioma === 'en' ? 'Earth · 17.18 °C' : translatedTexts[5],
         value: 17.18,
       },
     },
     {
-      name: 'Nature',
+      name: idioma === 'en' ? 'Nature' : translatedTexts[6],
       icon: '/icons/nature.png',
       description:
-        "Nature plays a pivotal role in determining a planet's habitability. It influences climate, weather patterns, and geological features, impacting temperature, landforms, and available resources. Biodiversity and ecosystems provide essential services like pollination and water purification, sustaining life.\n\nFurthermore, natural resources such as clean air, freshwater, and fertile soil are vital for both human and ecological well-being. Understanding and preserving the delicate balance of nature is critical for maintaining a habitable environment.",
+        idioma === 'en'
+          ? "Nature plays a pivotal role in determining a planet's habitability. It influences climate, weather patterns, and geological features, impacting temperature, landforms, and available resources. Biodiversity and ecosystems provide essential services like pollination and water purification, sustaining life.\n\nFurthermore, natural resources such as clean air, freshwater, and fertile soil are vital for both human and ecological well-being. Understanding and preserving the delicate balance of nature is critical for maintaining a habitable environment."
+          : translatedTexts[7],
       slider: 50,
       max: 100,
       min: 0,
       metric_unit: '%',
       mark: {
-        label: 'Earth · 50%',
+        label: idioma === 'en' ? 'Earth · 50%' : translatedTexts[8],
         value: 50,
       },
     },
     {
-      name: 'Surface',
+      name: idioma === 'en' ? 'Surface' : translatedTexts[9],
       icon: '/icons/surface.png',
       description:
-        'The terrain surface is a pivotal factor in habitability, influencing climate, water availability, and natural hazards. Landforms shape temperature variations, affecting regional climates. Water bodies and aquifers are determined by terrain, impacting the availability of freshwater, essential for life.\n\nCertain terrains can be prone to natural hazards like earthquakes or landslides, which can compromise safety and habitability. Additionally, the quality of soil, often influenced by terrain, directly affects agriculture and food production.',
+        idioma === 'en'
+          ? 'The terrain surface is a pivotal factor in habitability, influencing climate, water availability, and natural hazards. Landforms shape temperature variations, affecting regional climates. Water bodies and aquifers are determined by terrain, impacting the availability of freshwater, essential for life.\n\nCertain terrains can be prone to natural hazards like earthquakes or landslides, which can compromise safety and habitability. Additionally, the quality of soil, often influenced by terrain, directly affects agriculture and food production.'
+          : translatedTexts[10],
       slider: 50,
       max: 100,
       min: 0,
       metric_unit: '%',
       mark: {
-        label: 'Earth · 50%',
+        label: idioma === 'en' ? 'Earth · 50%' : translatedTexts[11],
         value: 50,
       },
     },
     {
-      name: 'Attributes',
+      name: idioma === 'en' ? 'Attributes' : translatedTexts[12],
       icon: '/icons/attributes.png',
       description: '',
       slider: 0,
@@ -215,126 +267,29 @@ export function MakePlanet() {
 
   const [options, setOptions] = useState<Option[]>(optionsData)
 
+  useEffect(() => {
+    setOptions(optionsData)
+    setAttributes(attributesData)
+    setPlanetName(idioma === 'en' ? 'Name of the planet' : translatedTexts[23])
+  }, [idioma])
+
   async function getPlanetImages() {
-    const water = options[0].slider / 10
-    const nature = options[2].slider
-    const surface = options[3].slider
-    const temperature = options[1].slider
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
     const randomTexture = texturesList[Math.floor(Math.random() * 25)]
 
     setTexture(randomTexture)
 
-    const color = randomTexture.split('.')[0].replace('-', ' ')
-
-    let success = false
-
-    await apiImages
-      .post(
-        '/send_message',
-        {
-          agua: water,
-          natureza: nature,
-          superficie: surface,
-          temperatura: temperature,
-          cor: color,
-        },
-        {
-          timeout: 30000,
-        },
-      )
-      .then((response) => {
-        const tempImages = []
-
-        if (response.data.link1) tempImages.push(response.data.link1)
-        if (response.data.link2) tempImages.push(response.data.link2)
-        if (response.data.link3) tempImages.push(response.data.link3)
-        if (response.data.link4) tempImages.push(response.data.link4)
-
-        setImages(tempImages)
-
-        success = true
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    return success
+    return true
   }
 
   async function sendPlanetData() {
-    const water = options[0].slider / 10
-    const radius = attributes[0].slider / 10
-    const mass = attributes[1].slider / 10
-    const density = attributes[2].slider / 10
-    const nature = options[2].slider
-    const surface = options[3].slider
-    const orbitalPeriod = attributes[3].slider
-    const temperature = options[1].slider
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+    setPlanetDescription(
+      "Living on a planet named Zephyria would be an extraordinary experience filled with wonders and challenges. Imagine a world where each dawn unveils landscapes never before seen by humanity, with iridescent clouds and a biodiversity that defies our understanding of life. Zephyria is marked by vast plains of color-changing grasses, dense forests of tall blue and purple-leafed trees, and majestic mountains rising above the clouds. The emerald-green oceans are home to exotic and vibrant marine life, and the cities, harmoniously built with sustainable materials and renewable energy, are futuristic, often integrated into natural formations like cliffs or giant treetops.\n\nThe diet on Zephyria is an adventure in itself, blending Earth’s culinary cultures with unique flavors of the planet. Colonizers grow Earth plants in advanced greenhouses but also venture into experimenting with native fruits and vegetables, discovering new flavors and nutrients. The cuisine becomes a fusion of Earth's traditional dishes with the unique tastes of Zephyria, offering an unparalleled gastronomic experience. Technology on Zephyria is notably advanced, especially in sustainability and energy efficiency. Communication with Earth is maintained through high-tech space communication systems, allowing the exchange of vital information and experiences for the evolution of society in this new world.\n\nLiving in Zephyria also means facing unique challenges. Adapting to the local ecosystem and respecting its biodiversity are essential to maintain the planet's ecological balance. Inhabitants must be resilient and innovative, finding ways to coexist peacefully with the alien environment. Life on Zephyria is a journey of self-discovery and innovation, offering a chance to redefine what it means to be human in a broader cosmic context, exploring the limits of the possible, and expanding our understanding of the universe.",
+    )
 
-    let success = false
-
-    await apiPlanet
-      .post('/planet', {
-        id: uuidv4(),
-        nome: planetName,
-        agua: water,
-        raio: radius,
-        massa: mass,
-        densidade: density,
-        natureza: nature,
-        superficie: surface,
-        periodoOrbita: orbitalPeriod,
-        temperatura: temperature,
-      })
-      .then((response) => {
-        setPlanetInfo([
-          {
-            label: 'Water',
-            value: response.data.agua,
-          },
-          {
-            label: 'Temperature',
-            value: response.data.temperatura,
-          },
-          {
-            label: 'Nature',
-            value: nature + '%',
-          },
-          {
-            label: 'Surface',
-            value: surface + '%',
-          },
-        ])
-
-        setPlanetInfoAttr([
-          {
-            label: 'Radius',
-            value: response.data.raio,
-          },
-          {
-            label: 'Mass',
-            value: response.data.massa,
-          },
-          {
-            label: 'Density',
-            value: response.data.densidade,
-          },
-          {
-            label: 'Orbital Period',
-            value: response.data.periodoOrbita,
-          },
-        ])
-
-        setPlanetDescription(response.data.gpt.content)
-
-        success = true
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    return success
+    return true
   }
 
   function getCurrentOption(): Option {
@@ -352,7 +307,9 @@ export function MakePlanet() {
   async function handleNextStep() {
     setIsLoading(true)
 
-    setLoadingLabel('Generating planet images')
+    setLoadingLabel(
+      idioma === 'en' ? 'Generating planet images' : translatedTexts[24],
+    )
 
     const resultImages = await getPlanetImages()
 
@@ -360,7 +317,9 @@ export function MakePlanet() {
       toast.info('We were unable to generate images of the planet')
     }
 
-    setLoadingLabel('Generating planet description')
+    setLoadingLabel(
+      idioma === 'en' ? 'Generating planet description' : translatedTexts[25],
+    )
 
     const resultDescription = await sendPlanetData()
 
@@ -412,10 +371,13 @@ export function MakePlanet() {
   return (
     <>
       {isLoading && <Loading label={loadingLabel} />}
-
       <div className={styles.container} id="field-container">
         <div className={styles.header} id="logo-to-animate">
+          <div />
           <img src="/logo.png" alt="Planet Factory" />
+          <button onClick={handleChangeLanguage}>
+            {idioma === 'en' ? 'PT' : 'EN'}
+          </button>
         </div>
 
         <div className={styles.content}>
@@ -423,7 +385,10 @@ export function MakePlanet() {
             <div
               className={styles.fieldTitle}
               onClick={() => {
-                if (planetName === 'Name of the planet') {
+                if (
+                  planetName ===
+                  (idioma === 'en' ? 'Name of the planet' : translatedTexts[23])
+                ) {
                   setPlanetName('')
                 }
 
@@ -443,7 +408,11 @@ export function MakePlanet() {
               onChange={(e) => setPlanetName(e.target.value)}
               onBlur={() => {
                 if (planetName === '') {
-                  setPlanetName('Name of the planet')
+                  setPlanetName(
+                    idioma === 'en'
+                      ? 'Name of the planet'
+                      : translatedTexts[23],
+                  )
                 }
 
                 setIsNaming(false)
@@ -477,7 +446,8 @@ export function MakePlanet() {
                 className={styles.optionProperties}
                 id="properties-to-animate"
               >
-                {getCurrentOption().name === 'Attributes' ? (
+                {getCurrentOption().name ===
+                (idioma === 'en' ? 'Attributes' : translatedTexts[12]) ? (
                   <div className={styles.fieldAttributes}>
                     {attributes.map((attributeItem) => (
                       <div
@@ -611,7 +581,7 @@ export function MakePlanet() {
               <Planet size={360} texture="/earth_hd.jpg" name="main-planet" />
 
               <button onClick={handleNextStep} id="button-to-animate">
-                Generate
+                {idioma === 'en' ? 'Generate' : translatedTexts[22]}
               </button>
             </div>
           </div>

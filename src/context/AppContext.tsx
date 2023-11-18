@@ -23,6 +23,12 @@ interface AppContextInterface {
 
   planetInfoAttr: Option[]
   setPlanetInfoAttr: (planetInfo: Option[]) => void
+
+  idioma: string
+  setIdioma: (idioma: string) => void
+
+  translatedTexts: string[]
+  setTranslatedTexts: (translatedTexts: string[]) => void
 }
 
 interface AppProviderProps {
@@ -36,6 +42,9 @@ export function AppProvider({ children }: AppProviderProps) {
   const [planetDescription, setPlanetDescription] = useState('')
   const [images, setImages] = useState<string[]>([])
   const [texture, setTexture] = useState('')
+
+  const [idioma, setIdioma] = useState('en')
+  const [translatedTexts, setTranslatedTexts] = useState<string[]>([])
 
   const [planetInfo, setPlanetInfo] = useState<Option[]>([])
   const [planetInfoAttr, setPlanetInfoAttr] = useState<Option[]>([])
@@ -55,6 +64,10 @@ export function AppProvider({ children }: AppProviderProps) {
         setPlanetInfo,
         planetInfoAttr,
         setPlanetInfoAttr,
+        idioma,
+        setIdioma,
+        translatedTexts,
+        setTranslatedTexts,
       }}
     >
       {children}

@@ -16,6 +16,40 @@
   // background: #0F1330;
 }
 
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 4rem;
+
+  div {
+    width: 80px;
+  }
+
+  button {
+    height: 40px;
+    width: 80px;
+
+    background: #fff;
+
+    border-radius: 4px;
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: .3s ease;
+
+    &:hover {
+      background: #e5e5e5;
+    }
+  }
+}
+
 .content {
   width: 100%;
   padding: 0 120px;

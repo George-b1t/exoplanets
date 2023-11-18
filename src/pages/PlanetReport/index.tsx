@@ -6,14 +6,24 @@ import { AppContext } from '../../context/AppContext'
 import { useNavigate } from 'react-router-dom'
 
 export function PlanetReport() {
-  const { planetName, planetDescription, images, texture } =
-    useContext(AppContext)
+  const {
+    planetName,
+    planetDescription,
+    images,
+    texture,
+    idioma,
+    translatedTexts,
+  } = useContext(AppContext)
 
   const navigate = useNavigate()
 
   const [showDialog, setShowDialog] = useState(false)
 
   useEffect(() => {
+    if (!planetDescription) {
+      navigate('/')
+    }
+
     const planet = document.getElementById('field-planet-main-planet-report')
 
     if (!planet) return
@@ -72,12 +82,12 @@ export function PlanetReport() {
         </div>
 
         <div className={styles.fieldBacgroundDescriptionImage}>
-          <button
+          {/* <button
             className={styles.fieldButtonShowImages}
             onClick={() => setShowDialog(true)}
           >
             <img src="/images.png" alt="Images icon" />
-          </button>
+          </button> */}
 
           <img
             src="/planet-field-information.svg"
@@ -87,15 +97,15 @@ export function PlanetReport() {
           <div className={styles.fieldDescription}>
             <h1>{planetName}</h1>
 
-            <p>{planetDescription}</p>
+            <p>{idioma === 'en' ? planetDescription : translatedTexts[26]}</p>
 
-            <button
+            {/* <button
               onClick={() => {
                 navigate('/compare')
               }}
             >
               Next
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
