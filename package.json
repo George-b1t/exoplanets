@@ -16,6 +16,7 @@
     "@types/three": "^0.156.0",
     "@types/uuid": "^9.0.5",
     "axios": "^1.5.1",
+    "openai": "^3.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.16.0",

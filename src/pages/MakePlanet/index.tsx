@@ -8,6 +8,8 @@ import { Loading } from '../../components/Loading'
 import { toast } from 'react-toastify'
 import { translate } from '../../services/translate'
 
+import { Configuration, OpenAIApi } from 'openai'
+
 interface Option {
   name: string
   icon: string
@@ -93,15 +95,19 @@ export function MakePlanet() {
           'Name of the planet',
           'Generating planet images',
           'Generating planet description',
-          "Living on a planet named Zephyria would be an extraordinary experience filled with wonders and challenges. Imagine a world where each dawn unveils landscapes never before seen by humanity, with iridescent clouds and a biodiversity that defies our understanding of life. Zephyria is marked by vast plains of color-changing grasses, dense forests of tall blue and purple-leafed trees, and majestic mountains rising above the clouds. The emerald-green oceans are home to exotic and vibrant marine life, and the cities, harmoniously built with sustainable materials and renewable energy, are futuristic, often integrated into natural formations like cliffs or giant treetops.\n\nThe diet on Zephyria is an adventure in itself, blending Earth’s culinary cultures with unique flavors of the planet. Colonizers grow Earth plants in advanced greenhouses but also venture into experimenting with native fruits and vegetables, discovering new flavors and nutrients. The cuisine becomes a fusion of Earth's traditional dishes with the unique tastes of Zephyria, offering an unparalleled gastronomic experience. Technology on Zephyria is notably advanced, especially in sustainability and energy efficiency. Communication with Earth is maintained through high-tech space communication systems, allowing the exchange of vital information and experiences for the evolution of society in this new world.\n\nLiving in Zephyria also means facing unique challenges. Adapting to the local ecosystem and respecting its biodiversity are essential to maintain the planet's ecological balance. Inhabitants must be resilient and innovative, finding ways to coexist peacefully with the alien environment. Life on Zephyria is a journey of self-discovery and innovation, offering a chance to redefine what it means to be human in a broader cosmic context, exploring the limits of the possible, and expanding our understanding of the universe.",
+          '',
         ],
       }).then((response) => {
         setTranslatedTexts(response)
+        setCurrentSelection('Água')
       })
       setIsLoading(false)
+      setIdioma('pt')
+      setCurrentSelection('Água')
+    } else {
+      setIdioma('en')
+      setCurrentSelection('Water')
     }
-
-    setIdioma(idioma === 'en' ? 'pt' : 'en')
   }
 
   const texturesList = [
@@ -284,10 +290,109 @@ export function MakePlanet() {
   }
 
   async function sendPlanetData() {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setPlanetDescription(
-      "Living on a planet named Zephyria would be an extraordinary experience filled with wonders and challenges. Imagine a world where each dawn unveils landscapes never before seen by humanity, with iridescent clouds and a biodiversity that defies our understanding of life. Zephyria is marked by vast plains of color-changing grasses, dense forests of tall blue and purple-leafed trees, and majestic mountains rising above the clouds. The emerald-green oceans are home to exotic and vibrant marine life, and the cities, harmoniously built with sustainable materials and renewable energy, are futuristic, often integrated into natural formations like cliffs or giant treetops.\n\nThe diet on Zephyria is an adventure in itself, blending Earth’s culinary cultures with unique flavors of the planet. Colonizers grow Earth plants in advanced greenhouses but also venture into experimenting with native fruits and vegetables, discovering new flavors and nutrients. The cuisine becomes a fusion of Earth's traditional dishes with the unique tastes of Zephyria, offering an unparalleled gastronomic experience. Technology on Zephyria is notably advanced, especially in sustainability and energy efficiency. Communication with Earth is maintained through high-tech space communication systems, allowing the exchange of vital information and experiences for the evolution of society in this new world.\n\nLiving in Zephyria also means facing unique challenges. Adapting to the local ecosystem and respecting its biodiversity are essential to maintain the planet's ecological balance. Inhabitants must be resilient and innovative, finding ways to coexist peacefully with the alien environment. Life on Zephyria is a journey of self-discovery and innovation, offering a chance to redefine what it means to be human in a broader cosmic context, exploring the limits of the possible, and expanding our understanding of the universe.",
-    )
+    const water = options[0].slider / 10
+    const radius = attributes[0].slider / 10
+    const mass = attributes[1].slider / 10
+    const density = attributes[2].slider / 10
+    const nature = options[2].slider
+    const surface = options[3].slider
+    const orbitalPeriod = attributes[3].slider
+    const temperature = options[1].slider
+
+    const prompt =
+      'Describe in a detailed form a habitable exoplanet named ' +
+      planetName +
+      ' where ' +
+      'the exoplanet is compound of (' +
+      water +
+      '+%) water, the fauna and flora of this planet ' +
+      'have a ' +
+      nature +
+      ' diversity of life and the terrain of it is predominantly ' +
+      'composed of ' +
+      surface +
+      '. The exoplanet has an orbit ' +
+      'period of ' +
+      orbitalPeriod +
+      ' days and has an average surface ' +
+      'temperature of ' +
+      temperature +
+      '°C. The radius of the exoplanet is ' +
+      radius +
+      ' km, ' +
+      'the mass of the exoplanet is ' +
+      mass +
+      ' 10^24 kg and the density of the exoplanet is ' +
+      density +
+      ' g/cm^3.' +
+      '\n\n' +
+      '- If you want you can use the datas of the orbit period to generate the distance of the ' +
+      'exoplanet to the star of its solar system based on this formula T^2 = (4π^2 * a^3) / (G * M).' +
+      '\n' +
+      '- Do that description very well detailed please, giving good information about fauna and flora.' +
+      '\n' +
+      '- That description should be in a single text not containing unordered lists. Or any kind ' +
+      'of list' +
+      '\n' +
+      '- Do that description in a single text summary containing 200 words' +
+      '\n' +
+      '- And please dont show the formula on the generated text' +
+      '\n' +
+      '- When you are generating the names of the fauna animals and flora plants try not to ' +
+      'generate a too many fictional name'
+
+    const configuration = new Configuration({
+      apiKey: 'API_KEY',
+    })
+
+    const openai = new OpenAIApi(configuration)
+
+    const completion = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      max_tokens: 1000,
+    })
+
+    setPlanetDescription(completion.data.choices[0].message?.content || '')
+
+    await translate({
+      texts: [
+        'Water',
+        "Water is fundamental for a habitable planet. It sustains life, being a universal solvent crucial for biological processes. Its high heat capacity helps regulate temperatures, preventing extreme fluctuations that would otherwise render a planet uninhabitable. Water provides hydration for all organisms, a basic necessity for survival.\n\nMoreover, water bodies like oceans and lakes support diverse ecosystems, offering sustenance and oxygen for countless species. Water's role in climate regulation, through processes like evaporation and precipitation, maintains a stable environment.",
+        'Earth · 70%',
+        'Temperature',
+        "Temperature is a crucial factor for a planet's habitability. It determines the presence of liquid water, essential for life as we know it.\n\nA stable temperature range supports diverse ecosystems and prevents extreme fluctuations that can disrupt life. This concept is central to the search for habitable exoplanets, as astronomers seek regions with the right temperature conditions around distant stars.",
+        'Earth · 17.18 °C',
+        'Nature',
+        "Nature plays a pivotal role in determining a planet's habitability. It influences climate, weather patterns, and geological features, impacting temperature, landforms, and available resources. Biodiversity and ecosystems provide essential services like pollination and water purification, sustaining life.\n\nFurthermore, natural resources such as clean air, freshwater, and fertile soil are vital for both human and ecological well-being. Understanding and preserving the delicate balance of nature is critical for maintaining a habitable environment.",
+        'Earth · 50%',
+        'Surface',
+        'The terrain surface is a pivotal factor in habitability, influencing climate, water availability, and natural hazards. Landforms shape temperature variations, affecting regional climates. Water bodies and aquifers are determined by terrain, impacting the availability of freshwater, essential for life.\n\nCertain terrains can be prone to natural hazards like earthquakes or landslides, which can compromise safety and habitability. Additionally, the quality of soil, often influenced by terrain, directly affects agriculture and food production.',
+        'Earth · 50%',
+        'Attributes',
+        'Radius',
+        'Earth · 6.371 km',
+        'Mass',
+        'Earth · 5.974 10^24 kg',
+        'Density',
+        'Earth · 5.5 g/cm^3',
+        'Orbital Period',
+        'days',
+        'Earth · 365 days',
+        'Generate',
+        'Name of the planet',
+        'Generating planet images',
+        'Generating planet description',
+        completion.data.choices[0].message?.content || '',
+      ],
+    }).then((response) => {
+      setTranslatedTexts(response)
+    })
 
     return true
   }

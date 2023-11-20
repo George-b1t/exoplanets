@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 
-const key = 'bcd05d9a0fd7435dabe9a12463a3afff'
+const key = 'AZURE_KEY'
 const endpoint = 'https://api.cognitive.microsofttranslator.com'
 
 export async function translate({ texts }: { texts: string[] }) {
