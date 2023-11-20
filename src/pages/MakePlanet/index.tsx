@@ -342,7 +342,7 @@ export function MakePlanet() {
       'generate a too many fictional name'
 
     const configuration = new Configuration({
-      apiKey: 'API_KEY',
+      apiKey: import.meta.env.VITE_GPT_KEY,
     })
 
     const openai = new OpenAIApi(configuration)
